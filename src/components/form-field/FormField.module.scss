@@ -1,0 +1,40 @@
+.formField {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+
+    &__input {
+        padding: 10px 0;
+        border: none;
+        outline: none;
+        background-color: transparent;
+        border-bottom: 1px solid #c8c9cc;
+        font-size: 18px;
+        transition: border-bottom 0.3s ease-in-out;
+        font-size: 26px;
+
+        &:focus, &:hover {
+            border-bottom: 1px solid black;
+        }
+
+        &::placeholder {
+            font-size: 26px;
+            color: #c8c9cc;
+        }
+
+        &_error {
+            border-bottom: 1.5px solid #f00;
+        }
+    }
+
+    &__label {
+        margin-bottom: 20px;
+        font-weight: 600;
+        font-size: 18px;
+
+        &_error {
+            color: #f00;
+        }
+    }
+}

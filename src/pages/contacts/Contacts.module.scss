@@ -1,0 +1,23 @@
+.contacts {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 50px 0;
+    height: 100vh;
+    background-color: #fff;
+    
+
+    &__title {
+        font-size: 70px;
+        margin-bottom: 50px;
+    }
+
+    &__description {
+        font-size: 18px;
+        margin-bottom: 120px;
+    }
+
+}
+
+

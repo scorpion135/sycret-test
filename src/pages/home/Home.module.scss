@@ -1,0 +1,28 @@
+.title {
+    font-size: 100px;
+    font-weight: 400;
+    margin-bottom: 30px;
+}
+
+.description {
+    font-size: 26px;
+    text-align: center;
+    width: 75%;
+    margin-bottom: 80px;
+    line-height: 1.6;
+}
+
+.certificates {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-bottom: 50px;
+
+    div {
+        h3 {
+            color: black;
+        }
+    }
+}
