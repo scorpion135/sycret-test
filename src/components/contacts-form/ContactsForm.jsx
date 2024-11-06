@@ -4,18 +4,18 @@ import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { contactsSchema } from '../../validation/contacts';
 import FormField from '../form-field/FormField';
-import styles from './ContactForm.module.scss'
+import styles from './ContactsForm.module.scss'
 
-const ContactForm = () => {
+const ContactsForm = () => {
 
     const form = useForm({
-    resolver: zodResolver(contactsSchema),
-    defaultValues: {
-        name: '',
-        phone: '',
-        email: '',
-    },
-    mode: 'onChange',
+        resolver: zodResolver(contactsSchema),
+        defaultValues: {
+            name: '',
+            phone: '',
+            email: '',
+        },
+        mode: 'onBlur',
     });
 
     const onSubmit = (data) => {
@@ -26,7 +26,7 @@ const ContactForm = () => {
         <FormProvider {...form}>
             <form action="#" method='post' className={styles.form} onSubmit={form.handleSubmit(onSubmit)}>
                 <FormField label="Имя" type="text" name="name" id="name" placeholder="Ваше имя"/>
-                <FormField label="Телефон" type="phone" name="phone" id="phone" placeholder="+7(___) ___ - __ - __"/>
+                <FormField label="Телефон" type="tel" name="phone" id="phone" placeholder="Ваш телефон" />
                 <FormField label="Почта" type="email" name="email" id="email" placeholder="Ваша почта"/>
                 <div className={styles.buttons}>
                     <Link to="/">
@@ -39,4 +39,4 @@ const ContactForm = () => {
     )
 }
 
-export default ContactForm
+export default ContactsForm

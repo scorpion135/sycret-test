@@ -1,5 +1,9 @@
 import { z } from 'zod';
 
+const phoneRegex = new RegExp(
+  /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
+);
+
 export const nameSchema = z.string().superRefine((val, ctx) => {
   if (val.length === 0) {
     ctx.addIssue({
@@ -18,6 +22,6 @@ export const nameSchema = z.string().superRefine((val, ctx) => {
 
 export const contactsSchema = z.object({
   name: nameSchema,
-  phone: z.string().nonempty('Телефон обязателен для заполнения').regex(/^\+7\(\d{3}\)-\d{3}-\d{2}-\d{2}$/, 'Вы ввели некорректный телефон'),
+  phone: z.string().nonempty('Телефон обязателен для заполнения').regex(phoneRegex, 'Вы ввели некорректный телефон'),
   email: z.string().nonempty('Почта должна быть заполнена').email({ message: 'Вы ввели некорректную почту' }),
 });

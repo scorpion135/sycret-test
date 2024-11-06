@@ -1,6 +1,9 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import {Navigation} from "swiper/modules";
+import {useSelector, useDispatch} from 'react-redux';
+
+import {fetchCertificates} from "../../redux/slices/certificates.js";
 
 import 'swiper/css';
 
@@ -13,24 +16,37 @@ import Certificate from "../../components/certificate/Certificate";
 const Home = () => {
 
   const swiperRef = useRef(null);
+  const dispatch = useDispatch();
+
+  const prevButton = useRef(null);
+  const nextButton = useRef(null);
+
+  const {items, status} = useSelector((state) => state.certificates);
+
+  console.log(status)
+
+  useEffect(() => {
+    dispatch(fetchCertificates());
+  }, []);
 
   const updateButtonState = (swiper) => {
-      const prevButton = document.querySelector('.swiper-button-prev');
-      const nextButton = document.querySelector('.swiper-button-next');
-
+    if (prevButton.current && nextButton.current) {
+      // Скрываем или показываем кнопки в зависимости от положения слайдера
       if (swiper.isBeginning) {
-          prevButton.classList.add('disabled');
+        prevButton.current.style.display = 'none';
       } else {
-          prevButton.classList.remove('disabled');
+        prevButton.current.style.display = 'block';
       }
 
       if (swiper.isEnd) {
-          nextButton.classList.add('disabled');
+        nextButton.current.style.display = 'none';
       } else {
-          nextButton.classList.remove('disabled');
+        nextButton.current.style.display = 'block';
       }
-
+    }
   };
+
+
 
   return (
     <main className="wrapper">
@@ -43,9 +59,13 @@ const Home = () => {
         </p>
         
         <div className="swiper-outer">
-            <div className="swiper-button-prev">
+            {
+              status === 'loading' ? (
+                null
+              ) : <div className="swiper-button-prev" ref={prevButton} onClick={() => swiperRef.current.slidePrev()}>
               <img src="./icons/back.svg" alt="" />
             </div>
+            }
           <Swiper
             spaceBetween={30}
             slidesPerView={3}
@@ -61,27 +81,24 @@ const Home = () => {
             }}
             onSlideChange={(swiper) => updateButtonState(swiper)}
 
-            >
-            <SwiperSlide className="swiper-slide">
-                <Certificate amount={5000}/>
-            </SwiperSlide>
-            <SwiperSlide className="swiper-slide">
-                <Certificate amount={10000}/>
-            </SwiperSlide>
-            <SwiperSlide className="swiper-slide">
-                <Certificate amount={15000}/>
-            </SwiperSlide>
-            <SwiperSlide className="swiper-slide">
-                <Certificate amount={20000}/>
-            </SwiperSlide>
-            <SwiperSlide className="swiper-slide">
-                <Certificate amount={25000}/>
-            </SwiperSlide>
+
+            >   
             
+              { (status === 'loading' ? [...Array(3)] : items).map((item, index) => (
+                  <SwiperSlide className="swiper-slide" key={index}>
+                    <Certificate price={item?.PRICE} summa={item?.SUMMA} isLoading={status}/>
+                  </SwiperSlide>
+                ))
+              }         
           </Swiper>
-          <div className="swiper-button-next" onClick={() => swiperRef.current.slideNext()}>
-              <img src="./icons/next.svg" alt=""/>
-          </div>
+          {
+            status === 'loading' ? (
+              null
+            ) : <div className="swiper-button-next" onClick={() => swiperRef.current.slideNext()} ref={nextButton}>
+            <img src="./icons/next.svg" alt=""/>
+        </div>
+          }
+          
         </div>
        
         

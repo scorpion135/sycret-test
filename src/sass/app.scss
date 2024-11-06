@@ -55,12 +55,7 @@ body {
 
 .swiper-button-prev {
     left: -30px;
-}
-
-.swiper-button-next.disabled,
-.swiper-button-prev.disabled {
     display: none;
-    pointer-events: none;
 }
 
 
